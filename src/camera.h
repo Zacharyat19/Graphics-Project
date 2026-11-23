@@ -4,18 +4,6 @@
 #include <glm/glm.hpp>
 #include <glm/ext/quaternion_float.hpp>
 
-class Mesh;
-class Vertex;
-
-struct Ray
-{
-    glm::vec3 p;
-	glm::vec3 d;
-
-	inline glm::vec3 operator()(float t) const { return p + t*d; }
-	inline float isect_plane(const glm::vec3 &p0, const glm::vec3 &n) const { return glm::dot(n,p0-p)/glm::dot(n,d); }  
-};
-
 // Represents a camera orbiting around a position in 3D space.
 class Camera
 {
@@ -74,11 +62,6 @@ public:
 
 	// Reset camera to default values
 	void reset();
-
-	// Convert NDC mouse coords to world-space ray
-	Ray ndc_to_world_ray(const glm::vec2 &ndc);
-
-	Vertex *pick_vertex(const Mesh *mesh, const glm::vec2 &mouse_pos_ndc);
 
 	Camera();
 	~Camera() = default;

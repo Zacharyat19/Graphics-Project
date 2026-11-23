@@ -18,25 +18,16 @@ add_subdirectory(glm)
 set(SRC "src")
 add_executable(learnply2
 	${SRC}/camera.cpp ${SRC}/camera.h
-	${SRC}/deformation.cpp ${SRC}/deformation.h
-	${SRC}/edge.cpp ${SRC}/edge.h
 	${SRC}/main.cpp
-	${SRC}/mesh.cpp ${SRC}/mesh.h
-	${SRC}/ply.c ${SRC}/ply.h
-	${SRC}/shader.cpp ${SRC}/shader.h	
-	${SRC}/stb_image.c ${SRC}/stb_image.h
-	${SRC}/triangle.cpp ${SRC}/triangle.h
-	${SRC}/vertex.cpp ${SRC}/vertex.h
+	${SRC}/shader.cpp ${SRC}/shader.h
 
 	glad/src/gl.c
 )
 
-# Add any other resources you want to your program here
+# Files embedded in the executable (load them with learnply2_find_resource)
 set(RESOURCES
-	"shaders/silhouette.vert"
-	"shaders/silhouette.frag"
-	"shaders/silhouette.geom"
-	"shaders/silhouette_120.geom"
+	"shaders/quad.vert"
+	"shaders/raytrace.frag"
 )
 
 AddResources(learnply2 ${CMAKE_CURRENT_SOURCE_DIR} ${RESOURCES})

@@ -1,6 +1,7 @@
 #include "shader.h"
 
 #include <cstdio>
+#include <cstdlib>
 
 #include <learnply2_resources.h>
 
@@ -28,18 +29,14 @@ void ShaderProgram::compile_and_attach(unsigned type, const char *shader_path)
     }
 
     uint32_t size;
-    FILE *f = nullptr;
-	const uint8_t *data = learnply2_find_resource(shader_path, &size);
-	if (!data)
+    const uint8_t *data = learnply2_find_resource(shader_path, &size);
+    if (!data)
     {
         printf(" Failed (resource not found).\n");
         exit(1);
     }
 
     glShaderSource(shader, 1, reinterpret_cast<const GLchar *const *>(&data), reinterpret_cast<const GLint *>(&size));
-
-    if (f)
-        free(const_cast<uint8_t *>(data));
 
     glCompileShader(shader);
 
