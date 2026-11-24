@@ -201,7 +201,6 @@ static void on_mouse_motion(GLFWwindow *window, double xpos, double ypos)
 
 	if (pan_info.enabled)
 	{
-		// Window size, not framebuffer size, because mouse positions are in window coordinates
 		int width, height;
 		glfwGetWindowSize(window, &width, &height);
 
