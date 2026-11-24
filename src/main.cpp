@@ -5,6 +5,7 @@
 #include "shader.h"
 
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <cmath>
 #include <cstdio>
@@ -19,7 +20,6 @@ static GLuint quad_vao = 0;
 static glm::vec2 mouse_pos;
 static bool needs_repaint = true;
 
-// State for Ctrl + left-drag panning
 struct PanInfo
 {
 	bool enabled;
@@ -134,9 +134,12 @@ static void display()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	raytrace_shader->use();
+	
+	glm::mat4 invView = glm::inverse(camera.projection() * camera.view());
+	glUniformMatrix4fv(glGetUniformLocation(raytrace_shader->id(), "uInvViewProj"), 1, GL_FALSE, glm::value_ptr(invView));
+
 	glBindVertexArray(quad_vao);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	glBindVertexArray(0);
 	raytrace_shader->done();
 
 	glfwSwapBuffers(window);
@@ -223,7 +226,11 @@ static void on_scroll(GLFWwindow *window, double xoffset, double yoffset)
 	if (!std::isnormal(yoffset))
 		return;
 
-	const float factor = yoffset > 0.0 ? 1.0f / 1.125f : 1.125f;
+	float factor;
+	if (yoffset > 0.0)
+		factor = 1.0f / 1.125f;
+	else
+		factor = 1.125f;
 
 	if (camera.type() == Camera::ORTHOGRAPHIC)
 		camera.set_orthographic_scale(camera.orthographic_scale() * factor);
